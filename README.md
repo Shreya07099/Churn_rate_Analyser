@@ -1,2 +1,3 @@
 # Churn_rate_Analyser
-Author-Shreya Nair
+Author-Shreya Nair, VIT Vellore
+
