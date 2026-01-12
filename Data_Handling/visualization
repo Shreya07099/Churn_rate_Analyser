@@ -1,0 +1,26 @@
+from cleaning import df
+import matplotlib.pyplot as plt
+import seaborn as sns       
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import warnings
+warnings.filterwarnings('ignore')
+#Visualizing CHURN distribution
+def plot_churn_distribution(dataframe):
+    churn_counts = dataframe['Churn'].value_counts()
+    fig = px.pie(names=churn_counts.index, values=churn_counts.values, 
+                 title='Churn Distribution', 
+                 color_discrete_sequence=px.colors.sequential.RdBu)
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.show()
+plot_churn_distribution(df)
+fig=px.histogram(df,x='Churn',color='InternetService',barmode='group',
+                 title='Churn Count by Internet Service Type')
+fig.show()
+#it is noted that customers with Fiber optic internet service have higher churn rate
+df['Churn']=df['Churn'].replace({'Yes':1,'No':0})
+#Visualizing Monthly Charges vs Churn
+fig=px.box(df,x='Churn',y='MonthlyCharges',color='Churn',
+             title='Monthly Charges vs Churn')
+fig.show()

@@ -1,0 +1,9 @@
+pandas==2.3.3
+numpy==2.2.6
+missingno==0.5.2
+matplotlib==3.10.8
+seaborn==0.13.2
+plotly==6.5.1
+scikit-learn==1.7.2
+# pinned xgboost version installed in the venv
+xgboost==1.7.6
