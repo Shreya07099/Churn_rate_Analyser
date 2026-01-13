@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV
+import os
 
 clf_xgb = xgb.XGBClassifier(
     seed=42,
@@ -51,4 +52,14 @@ ConfusionMatrixDisplay.from_predictions(
 plt.show()
 
 #Final Inference: Significant Improvement in detecting customers that are actually going to leave(rest documentation on README)
-
+#Saving Model
+import joblib
+joblib.dump(clf_xgb, 'churn_model.joblib')
+print("Model saved")
+print("at:", os.path.abspath('churn_model.joblib'))
+import json
+feature_names = x_train.columns.tolist()  #
+with open('feature_names.json', 'w') as f:
+    json.dump(feature_names, f)
+print("Feature names saved")
+print("at:", os.path.abspath('feature_names.json'))
