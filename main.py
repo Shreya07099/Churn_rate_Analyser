@@ -137,3 +137,4 @@ grid_search = GridSearchCV(
 
 grid_search.fit(x_train, y_train)
 print("Best parameters:", grid_search.best_params_)
+x_test.to_csv('x_test_data.csv', index=False)
