@@ -8,23 +8,18 @@ import shap
 model = None           # already trained
 feature_names = None   # json has it
 x_test_sample = None   # is in the form of csv
-
+sns_client=None
+SNS_TOPIC_ARN=None
 
 def model_fn(model_dir):
 
-    global model, feature_names, x_test_sample
+    global model, feature_names, x_test_sample,sns_client,SNS_TOPIC_ARN
     
-  
-
-    model_file = "churn_model.joblib" 
-    model_path = r"C:\Users\shre0\vs_code sign\Churn_rate_Analyser\Sagemaker_deployment\churn_model.joblib"
-    
-    print(f"Loading model: {model_file}")
+    model_path = os.path.join(model_dir, "churn_model.joblib")
+    # Build path to model file inside the package
     model = joblib.load(model_path)
-    print(f"Model loaded: {type(model)}")
-    
     features_file = "feature_names.json" 
-    features_path = r"C:\Users\shre0\vs_code sign\Churn_rate_Analyser\Sagemaker_deployment\feature_names.json"
+    features_path = os.path.join(model_dir, "feature_names.json")
     
     with open(features_path, 'r') as f:
         feature_names = json.load(f)
@@ -32,7 +27,7 @@ def model_fn(model_dir):
     
     
     test_file = "x_test_data.csv"  
-    test_path = r"C:\Users\shre0\vs_code sign\Churn_rate_Analyser\Sagemaker_deployment\x_test_data.csv"
+    test_path = os.path.join(model_dir, "x_test_data.csv")
     
     # Load CSV - NO HEADER (just numbers)
     x_test_sample = pd.read_csv(test_path).values
