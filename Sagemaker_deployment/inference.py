@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np    
 import os             
 import sys            
-import shap            
+import shap   
+import boto3         
 model = None           # already trained
 feature_names = None   # json has it
 x_test_sample = None   # is in the form of csv
@@ -18,6 +19,7 @@ def model_fn(model_dir):
     model_path = os.path.join(model_dir, "churn_model.joblib")
     # Build path to model file inside the package
     model = joblib.load(model_path)
+    model_file = "churn_model.joblib"
     features_file = "feature_names.json" 
     features_path = os.path.join(model_dir, "feature_names.json")
     
@@ -31,12 +33,46 @@ def model_fn(model_dir):
     
     # Load CSV - NO HEADER (just numbers)
     x_test_sample = pd.read_csv(test_path).values
-
-
     print(f"Loaded: {model_file}, {features_file}, {test_file}")
-    print(f"Ready to predict for {x_test_sample.shape[0]} customers")
-    
+    try:
+        SNS_TOPIC_ARN = os.environ.get('SNS_TOPIC_ARN', 
+                                      'arn:aws:sns:us-east-1:YOUR-ACCOUNT-ID:Churn-Alerts')
+        sns_client = boto3.client('sns', region_name='us-east-1')
+        print(f"SNS initialized")
+    except Exception as e:
+        print(f"SNS failed: {str(e)}")
+        sns_client = None
+
     return model
+
+def send_churn_alert(customer_index, probability, risk_level, shap_factors):
+    global sns_client, SNS_TOPIC_ARN
+    
+    if sns_client is None or probability <= 0.5:
+        return False
+    
+    try:
+        subject = f"CHURN ALERT: Customer #{customer_index} - {probability:.1%} Risk"
+        message = f"""
+CUSTOMER CHURN RISK ALERT
+Customer Index: #{customer_index}
+Churn Probability: {probability:.1%}
+Risk : {risk_level}
+
+ TOP RISK FACTORS:
+{chr(10).join([f"  • {factor}" for factor in shap_factors[:3]])}
+"""
+        response = sns_client.publish(
+            TopicArn=SNS_TOPIC_ARN,
+            Subject=subject,
+            Message=message
+        )
+        print(f"Alert sent: {response['MessageId']}")
+        return True
+    except Exception as e:
+        print(f"Alert failed: {str(e)}")
+        return False
+
 
 def quick_explain_tree_aws(customer_index=0):
     global model, x_test_sample, feature_names    
@@ -102,6 +138,7 @@ def predict_fn(input_data, model):
         # 3. Get SHAP explanations for THIS customer (modified)
         # Pass customer_index instead of feature_names
         shap_explanations = quick_explain_tree_aws(customer_index)
+        alert_sent = send_churn_alert(customer_index, prob, risk, shap_explanations)
         
         # 4. Compile results
         result = {
@@ -110,6 +147,7 @@ def predict_fn(input_data, model):
             "PROBABILITY_RAW": float(prob),
             "RISK_LEVEL": risk,
             "RECOMMENDATION": "HIGH PRIORITY" if prob > 0.5 else "LOW PRIORITY",
+            "EMAIL_ALERT_SENT": alert_sent,
             "TOP_SHAP_FACTORS": shap_explanations,
                     }
         return result
