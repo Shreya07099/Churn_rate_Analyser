@@ -1,0 +1,51 @@
+#Shap Outputs for the first 3 customers from the test set:
+Shap Explainations output-- top 10 features-- and how they impact churn risk, individually
+Customer 1:
+Shap Explainations output
+• Contract_Month_to_month: INCREASES churn risk by 28.22%-------this is the main problem
+• OnlineSecurity_No: INCREASES churn risk by 13.28%
+• InternetService_Fiber_optic: INCREASES churn risk by 12.33%
+• tenure: INCREASES churn risk by 11.34%
+• TechSupport_No: INCREASES churn risk by 4.56%
+• TotalCharges: INCREASES churn risk by 3.38%
+• PaymentMethod_Electronic_check: REDUCES churn risk by 1.55%
+• Contract_Two_year: INCREASES churn risk by 1.53%
+• OnlineBackup_No: INCREASES churn risk by 0.98%
+• MonthlyCharges: REDUCES churn risk by 0.79%
+
+
+
+
+Customer 2:
+
+Shap Explainations output
+• Contract_Month_to_month: REDUCES churn risk by 38.45%---safe customer
+• OnlineSecurity_No: REDUCES churn risk by 14.63%
+• InternetService_Fiber_optic: REDUCES churn risk by 11.27%
+• tenure: REDUCES churn risk by 6.64%
+• Contract_Two_year: REDUCES churn risk by 6.53%
+• TechSupport_No: REDUCES churn risk by 5.06%
+• MonthlyCharges: REDUCES churn risk by 2.92%
+• TotalCharges: REDUCES churn risk by 1.66%
+• PaymentMethod_Electronic_check: REDUCES churn risk by 0.97%
+• Contract_One_year: REDUCES churn risk by 0.93%
+
+
+
+
+Customer 3:
+
+Shap Explainations output
+• Contract_Month_to_month: INCREASES churn risk by 27.65% -------this is the main problem
+• InternetService_Fiber_optic: INCREASES churn risk by 13.34%
+• OnlineSecurity_No: INCREASES churn risk by 11.78%
+• tenure: REDUCES churn risk by 7.39%
+• TotalCharges: REDUCES churn risk by 3.95%
+• TechSupport_No: INCREASES churn risk by 3.51%
+• PaymentMethod_Electronic_check: INCREASES churn risk by 1.76%
+• OnlineBackup_No: REDUCES churn risk by 1.58%
+• Contract_Two_year: INCREASES churn risk by 1.16%
+• MonthlyCharges: REDUCES churn risk by 0.79%
+
+We can now clearly see what is the problem for each customer, this can give us insights into what has to be done to
+retain them which will be executed via the AWS pipeline

@@ -1,5 +1,5 @@
-from cleaning import df
-from main import x_train, y_train, x_test,y_test
+from Churn_rate_Analyser.cleaning import df
+from Churn_rate_Analyser.main import x_train, y_train, x_test,y_test
 import pandas as pd
 import numpy as np
 import xgboost as xgb

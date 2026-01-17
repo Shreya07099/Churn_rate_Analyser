@@ -1,7 +1,7 @@
 import shap 
 import numpy as np
 import matplotlib.pyplot as plt
-from Final_model import clf_xgb, x_train, x_test
+from Churn_rate_Analyser.Final_model import clf_xgb, x_train, x_test
 #Using the first ten customers from the test data set to provide explainations for(any one)
 def quick_explain_tree(model,features,x_test_sample):
     explainer=shap.TreeExplainer(model)
