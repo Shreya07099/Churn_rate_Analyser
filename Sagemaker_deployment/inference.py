@@ -16,10 +16,10 @@ def model_fn(model_dir):
 
     global model, feature_names, x_test_sample,sns_client,SNS_TOPIC_ARN
     
-    model_path = os.path.join(model_dir, "churn_model.joblib")
+    model_path = os.path.join(model_dir, "model.joblib")
     # Build path to model file inside the package
     model = joblib.load(model_path)
-    model_file = "churn_model.joblib"
+    model_file = "model.joblib"
     features_file = "feature_names.json" 
     features_path = os.path.join(model_dir, "feature_names.json")
     
