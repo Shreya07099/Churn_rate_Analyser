@@ -1,5 +1,7 @@
 #Importing necessary libraries
-from cleaning import df
+#This file has the complete code for data preprocessing, model training, 
+# evaluation and hyperparameter tuning(multiple times) using GridSearchCV
+from Churn_rate_Analyser.data_cleaning import df
 import pandas as pd
 import numpy as np
 import xgboost as xgb
