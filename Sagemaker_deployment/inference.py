@@ -162,7 +162,7 @@ def predict_fn(input_data, model):
             "STATUS": "FAILED"
         }
 def output_fn(prediction, response_content_type):
-        print(f"📤 Formatting output as {response_content_type}")
+        print(f"Formatting output as {response_content_type}")
         
         if response_content_type == 'application/json':#dict to  json format
             return json.dumps(prediction, indent=2)  # indent=2 makes it pretty
