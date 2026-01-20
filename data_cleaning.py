@@ -8,7 +8,7 @@ def load_data(file_path):
 file = r"C:\Users\shre0\vs_code sign\Churn_rate_Analyser\Data\WA_Fn-UseC_-Telco-Customer-Churn.csv"
 df = load_data(file)
 #print(df.columns.values)
-#print(df.info())
+print(df.info())
 df=df.drop(['customerID'],axis=1)
 #print(df.head())
 #values that cannot be parsed are converted to nan
