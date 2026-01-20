@@ -55,7 +55,7 @@ data/ folder - All datasets including raw customer data, processed training sets
 
 sagemaker_deployment/ folder - AWS deployment package with model files and sample test CSV.
 
-visualization/ folder - Data visualization scripts and graphs for analysis and model performance.
+visualization- Data visualization scripts and graphs for analysis and model performance.
 
 requirements.txt - Python dependencies including XGBoost, SHAP, scikit-learn, and AWS SDK
 
